@@ -59,11 +59,6 @@ import com.stupidbeauty.hxlauncher.bean.VoiceCommandHitDataObject;
 import com.google.gson.Gson;
 import com.huiti.msclearnfootball.AnswerAvailableEvent;
 import com.huiti.msclearnfootball.VoiceRecognizeResult;
-import com.iflytek.cloud.ErrorCode;
-import com.iflytek.cloud.RecognizerResult;
-import com.iflytek.cloud.SpeechConstant;
-import com.iflytek.cloud.SpeechError;
-import com.iflytek.cloud.SpeechUtility;
 import com.stupidbeauty.hxlauncher.bean.ApplicationNameInternationalizationData;
 import com.stupidbeauty.hxlauncher.bean.ApplicationNamePair;
 import com.stupidbeauty.hxlauncher.bean.HxShortcutInfo;
@@ -88,7 +83,6 @@ import java.util.Set;
 import java.util.Stack;
 import com.stupidbeauty.hxlauncher.interfaces.LocalServerListLoadListener;
 import com.stupidbeauty.hxlauncher.bean.ApplicationListData;
-import com.iflytek.cloud.SpeechRecognizer;
 import static android.content.Intent.ACTION_PACKAGE_CHANGED;
 import static android.content.Intent.ACTION_PACKAGE_REPLACED;
 import static android.content.Intent.EXTRA_COMPONENT_NAME;
@@ -182,8 +176,6 @@ public class DownloadFailureReporter
     private String voiceRecognizeResultString; //!<语音识别结果。
 
     int ret = 0;
-
-    private SpeechRecognizer mIat; //!<语言识别器。
 
     private String recordSoundFilePath; //!<录音文件路径．
 
@@ -342,61 +334,6 @@ public class DownloadFailureReporter
     } //private void assesSendVoiceAssociationData()
 
     /**
-     * 考虑是否要重新启动语音识别过程。
-     */
-    private void assesRestartSpeechRecognize()
-    {
-    } //private void assesRestartSpeechRecognize()
-
-    /**
-     * 参数设置
-     *
-     * @return 是否设置成功。
-     */
-    public boolean setParam()
-    {
-      boolean result = false;
-
-      if (mIat!=null) //识别器存在。
-      {
-        // 设置识别引擎
-        String mEngineType = SpeechConstant.TYPE_CLOUD;
-
-        mIat.setParameter(SpeechConstant.ENGINE_TYPE, mEngineType);
-
-        // 设置返回结果为json格式
-        mIat.setParameter(SpeechConstant.RESULT_TYPE, "json");
-
-        // 设置云端识别使用的语法id
-        mIat.setParameter(SpeechConstant.DOMAIN,"iat");
-
-        setLanguageAndAccentParameters(); //设置语言及区域参数字符串。
-
-        String vadEos=mIat.getParameter(SpeechConstant.VAD_EOS); //获取默认的后端点时间。
-
-        Log.d(TAG,"setParam, default vad eos: "+vadEos); //Debug.
-
-        mIat.setParameter(SpeechConstant.VAD_EOS, "100"); //后端点时间长度。
-
-        mIat.setParameter(SpeechConstant.ASR_PTT, "0"); //不要标点符号。https://www.xfyun.cn/doc/asr/voicedictation/Android-SDK.html#_2%E3%80%81sdk%E9%9B%86%E6%88%90%E6%8C%87%E5%8D%97
-
-        result = true;
-
-        // 设置音频保存路径，保存音频格式支持pcm、wav，设置路径为sd卡请注意WRITE_EXTERNAL_STORAGE权限
-        // 注：AUDIO_FORMAT参数语记需要更新版本才能生效
-        mIat.setParameter(SpeechConstant.AUDIO_FORMAT, "wav");
-
-        recordSoundFilePath=Environment.getExternalStorageDirectory() + "/msc/asr."+ recognizeCounter +".wav"; //构造录音文件路径．
-
-        mIat.setParameter(SpeechConstant.ASR_AUDIO_PATH, recordSoundFilePath); //设置录音存储路径。
-
-        mIat.setParameter(SpeechConstant.KEY_REQUEST_FOCUS, "false"); //不获取焦点。
-      } //if (mIat!=null) //识别器存在。
-
-      return result;
-    }
-
-    /**
      * 设置语言及区域参数字符串。
      */
     private void setLanguageAndAccentParameters()
@@ -412,21 +349,14 @@ public class DownloadFailureReporter
 
       if (androidLocaleName.startsWith("zh_CN")) //简体中文。
       {
-        mIat.setParameter(SpeechConstant.LANGUAGE,"zh_cn");
-        mIat.setParameter(SpeechConstant.ACCENT, "mandarin");
-
         foundDirectLanguage=true;
       } //简体中文。
       else if (androidLocaleName.startsWith("en")) //英语
       {
-        mIat.setParameter(SpeechConstant.LANGUAGE,"en_us");
-
         foundDirectLanguage=true;
       } //else if (androidLocaleName.startsWith("en")) //英语
       else //其它语言。后面还有机会选择
       {
-        mIat.setParameter(SpeechConstant.LANGUAGE,"en_us");
-
         foundDirectLanguage=false; //未直接找到匹配的语言
       } //else //英语。
 
@@ -463,21 +393,14 @@ public class DownloadFailureReporter
 
             if (androidLocaleName.startsWith("zh_CN")) //简体中文。
             {
-              mIat.setParameter(SpeechConstant.LANGUAGE,"zh_cn");
-              mIat.setParameter(SpeechConstant.ACCENT, "mandarin");
-
               foundDirectLanguage=true;
             } //简体中文。
             else if (androidLocaleName.startsWith("en")) //英语
             {
-              mIat.setParameter(SpeechConstant.LANGUAGE,"en_us");
-
               foundDirectLanguage=true;
             } //else if (androidLocaleName.startsWith("en")) //英语
             else //其它语言。后面还有机会选择
             {
-              mIat.setParameter(SpeechConstant.LANGUAGE,"en_us");
-
               foundDirectLanguage=false; //未直接找到匹配的语言
             } //else //英语。
 
