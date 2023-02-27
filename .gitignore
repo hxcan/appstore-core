@@ -1,0 +1,12 @@
+.gradle/
+HxLauncher.iml
+appstore.core.pp/app.iml
+appstore.core.pp/build/
+appstore.core.pp/free/
+appstore.core.pp/libs/
+appstore.core.pp/pro/
+appstore.core.pp/release/
+build/
+local.properties
+projectFilesBackup/
+victoriafreshfiles/VoicePackageUrlMapInternationalization/voicePackageUrlMap.cbor.cx.exz

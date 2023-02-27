@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="yellow">#ffff00</color>
+    <color name="black">#000000</color>
+    <color name="light_gray">#424445</color>
+    <color name="orange1">#FF973E</color>
+    <color name="white">#ffffffff</color>
+
+
+    <color name="nav_bar_bg">#AAAAAA</color>
+
+    <color name="action_sheet_content_bg">#61656F</color>
+
+
+</resources>

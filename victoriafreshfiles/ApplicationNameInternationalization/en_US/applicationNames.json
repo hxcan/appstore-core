@@ -1,0 +1,112 @@
+{
+  "applicationNames": [
+    {
+      "packageName": "com.uniriho.szt",
+      "readableApplicationName": "PengTao"
+    },
+    {
+      "packageName": "com.ygkj.chelaile.standard",
+      "readableApplicationName": "Bus is coming"
+    },
+    {
+      "packageName": "com.javayhu.license",
+      "readableApplicationName": "Driving test collection"
+    },
+    {
+      "packageName": "cmb.pb",
+      "readableApplicationName": "China merchants bank"
+    },
+    {
+      "packageName": "com.missyou.missyou",
+      "readableApplicationName": "Miss you"
+    },
+    {
+      "packageName": "com.iflytek.inputmethod",
+      "readableApplicationName": "Iflytek input method"
+    },
+    {
+      "packageName": "com.handsgo.jiakao.android",
+      "readableApplicationName": "Driving test collection"
+    },
+    {
+    "packageName": "com.aligames.kuang.kybc.nubia",
+      "readableApplicationName": "Wild driving 9"
+    },
+    {
+    "packageName": "com.amazon.kindlefc",
+      "readableApplicationName": "Kindle read"
+    },
+    {
+    "packageName": "com.cmschina.stock",
+      "readableApplicationName": "CMB stock"
+    },
+    {
+    "packageName": "com.example.rentalcarapp",
+      "readableApplicationName": "Izu rental car"
+    },
+    {
+    "packageName": "com.example.soutudi_app",
+      "readableApplicationName": "Search house earth"
+    },
+    {
+    "packageName": "com.jingdong.app.mall",
+      "readableApplicationName": "Jing dong"
+    },
+    {
+    "packageName": "com.kunekt.healthy",
+      "readableApplicationName": "Iwown ring"
+    },
+    {
+    "packageName": "com.shoudu.se2.actv",
+      "readableApplicationName": "Different colors"
+    },
+    {
+    "packageName": "com.tencent.karaoke",
+      "readableApplicationName": "Tencent karaoke"
+    },
+    {
+    "packageName": "com.tencent.gjxq",
+      "readableApplicationName": "Tencent chess"
+    },
+    {
+    "packageName": "com.tencent.qqgame.xq",
+      "readableApplicationName": "Tencent Chinese chess"
+    },
+    {
+    "packageName": "com.tencent.tmgp.carrot2",
+      "readableApplicationName": "Carrot 2"
+    },
+    {
+    "packageName": "com.tplink.ipc",
+      "readableApplicationName": "Tplink safety"
+    },
+    {
+    "packageName": "com.turbo.stars.nubia",
+      "readableApplicationName": "Skating board"
+    },
+    {
+    "packageName": "com.xunlei.downloadprovider",
+      "readableApplicationName": "Thunder download"
+    },
+    {
+    "packageName": "com.apkshow.appstore",
+      "readableApplicationName": "Android market"
+    },
+    {
+    "packageName": "com.chaozh.iReaderBJFY",
+      "readableApplicationName": "iReader read"
+    },
+    {
+    "packageName": "com.ss.android.article.news",
+      "readableApplicationName": "Headlines today"
+    },
+    {
+    "packageName": "com.baidu.hao123",
+      "readableApplicationName": "Internet navigation"
+    },
+    {
+    "packageName": "com.jd.app.reader, activity",
+      "readableApplicationName": "Jing dong read"
+    }
+  ]
+}
