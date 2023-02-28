@@ -504,7 +504,7 @@ public class DownloadFailureReporter
     /**
     * report download failure.
     */
-    private void reportDownloadFailure(String packageName, String RabbitMQUserName, String RabbitMQPassword, String TRANSLATE_REQUEST_QUEUE_NAME)
+    public void reportDownloadFailure(String packageName, String RabbitMQUserName, String RabbitMQPassword, String TRANSLATE_REQUEST_QUEUE_NAME)
     {
       Log.d(TAG, "reportDownloadFailure, package: " + packageName); // Debug.
 
