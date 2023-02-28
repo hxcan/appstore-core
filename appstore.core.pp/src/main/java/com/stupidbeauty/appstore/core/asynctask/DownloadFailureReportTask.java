@@ -23,9 +23,9 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Random;
-import static com.stupidbeauty.comgooglewidevinesoftwaredrmremover.Constants.Networks.RabbitMQPassword;
-import static com.stupidbeauty.comgooglewidevinesoftwaredrmremover.Constants.Networks.RabbitMQUserName;
-import static com.stupidbeauty.comgooglewidevinesoftwaredrmremover.Constants.Networks.TRANSLATE_REQUEST_QUEUE_NAME;
+// import static com.stupidbeauty.comgooglewidevinesoftwaredrmremover.Constants.Networks.RabbitMQPassword;
+// import static com.stupidbeauty.comgooglewidevinesoftwaredrmremover.Constants.Networks.RabbitMQUserName;
+// import static com.stupidbeauty.comgooglewidevinesoftwaredrmremover.Constants.Networks.TRANSLATE_REQUEST_QUEUE_NAME;
 // import static com.stupidbeauty.hxlauncher.HxLauncherIconType.PbActivityIconType;
 // import static com.stupidbeauty.hxlauncher.HxLauncherIconType.PbShortcutIconType;
 
@@ -41,31 +41,29 @@ public final class DownloadFailureReportTask extends AsyncTask<Object, Void, Boo
   protected Boolean doInBackground(Object... params)
   {
     //参数顺序：
-    //            voiceRecognizeResultString, packageName, activityName, recordSoundFilePath, iconType, iconTitle
+    // packageName
 
     Boolean result=false; //结果，是否成功。
 
     //使用protobuf将各个字段序列化成字节数组，然后使用rabbitmq发送到服务器。
 
-    String subject=(String)(params[0]); //获取识别结果文字内容。
+//     String subject=(String)(params[0]); //获取识别结果文字内容。
 
-    String body=(String)(params[1]); //获取包名。
-    String acitivtyName=(String)(params[2]); //活动名字。
-    String recordSoundFilePath=(String)(params[3]); //录音文件路径．
-    LauncherIconType iconType=(LauncherIconType)(params[4]); //图标类型．
-    String iconTitle=(String)(params[5]); //图标标题．
+    String body=(String)(params[0]); // 获取包名。
+    String RabbitMQUserName=(String)(params[1]); // user name
+    String RabbitMQPassword=(String)(params[2]); // password 
+    String TRANSLATE_REQUEST_QUEUE_NAME=(String)(params[3]); // message queue name.
 
-    result = sendHItDataReport(subject, body, acitivtyName, recordSoundFilePath, iconType, iconTitle);
+    result = sendHItDataReport(body, RabbitMQUserName, RabbitMQPassword, TRANSLATE_REQUEST_QUEUE_NAME);
 
     return result;
   } //protected Boolean doInBackground(Object... params)
 
-  private Boolean sendHItDataReport(String subject, String body, String acitivtyName, String recordSoundFilePath, LauncherIconType iconType, String iconTitle) 
+  private Boolean sendHItDataReport(String body, String RabbitMQUserName, String RabbitMQPassword, String TRANSLATE_REQUEST_QUEUE_NAME)
   {
     Boolean result = false;
-    File photoFile=new File(recordSoundFilePath); //录音文件。
 
-    byte[] array = constructVoiceCommandHistDataMessageCbor(subject, body, acitivtyName, iconType, iconTitle, photoFile);
+    byte[] array = constructVoiceCommandHistDataMessageCbor(body);
 
     try //使用RabbitMQ发送，并捕获可能的异常。
     {
@@ -104,71 +102,11 @@ public final class DownloadFailureReportTask extends AsyncTask<Object, Void, Boo
     return result;
   }
 
-    private byte[] constructVoiceCommandHistDataMessageCbor(String subject, String body, String acitivtyName, LauncherIconType iconType, String iconTitle, File photoFile)
+    private byte[] constructVoiceCommandHistDataMessageCbor(String body)
     {
       VoiceCommandHitDataObject translateRequestBuilder = new VoiceCommandHitDataObject(); //创建消息构造器。
 
-      translateRequestBuilder.setVoiceRecognizeResult(subject); //设置识别结果。
       translateRequestBuilder.setPackageName(body); //设置包名。
-      translateRequestBuilder.setActivityName(acitivtyName); //设置活动名字。
-      translateRequestBuilder.setIconTitle(iconTitle); //设置图标标题．
-
-      Log.d(TAG, "constructVoiceCommandHistDataMessageCbor, icon type: " + iconType); //Debug.
-      Log.d(TAG, "constructVoiceCommandHistDataMessageCbor, icon title: " + iconTitle); //Debug.
-        
-      translateRequestBuilder.setIconType(iconType); //快捷方式．
-
-      try //尝试构造请求对象，并且捕获可能的异常。
-      {
-//         ByteString photoByteArray=null; //照片的字节数组。
-        byte[] photoBytes= null; //将照片文件内容全部读取。
-
-        Log.d(TAG, "constructVoiceCommandHistDataMessageCbor, photo file: " + photoFile); //Debug.
-            
-        if (photoFile!=null) //找到了照片文件。
-        {
-//           photoBytes= FileUtils.readFileToByteArray(photoFile); //将照片文件内容全部读取。
-                
-          Log.d(TAG, "constructVoiceCommandHistDataMessageCbor, photo file bytes length: " + photoBytes.length); //Debug.
-
-//           photoByteArray=ByteString.copyFrom(photoBytes); //构造照片的字节字符串。
-        } //if (photoFile!=null) //找到了照片文件。
-
-        translateRequestBuilder.setAsrWavFileContent(photoBytes); //设置附件图片。
-
-        Log.d(TAG, "constructVoiceCommandHistDataMessageCbor, asr wva file bytes length: " + translateRequestBuilder.getAsrWavFileContent().length); //Debug.
-      } //try //尝试构造请求对象，并且捕获可能的异常。
-      catch (Exception e)
-      {
-        e.printStackTrace();
-      }
-
-      boolean addPhotoFile=false; //Whether to add photo file
-
-      if (addPhotoFile) //Should add photo file
-      {
-        //随机选择一张照片并复制：
-
-        try //尝试构造请求对象，并且捕获可能的异常。
-        {
-//           ByteString photoByteArray=null; //照片的字节数组。
-
-          byte[] photoBytes= null; //将照片文件内容全部读取。
-
-          long eventTimeStamp=System.currentTimeMillis(); //获取时间戳。
-
-          String photoFileName=photoFile.getName(); //获取文件名。
-
-          translateRequestBuilder.setPictureFileContent(photoBytes); //设置照片文件内容。
-        } //try //尝试构造请求对象，并且捕获可能的异常。
-        catch (Exception e)
-        {
-          e.printStackTrace();
-        }
-      } //if (addPhotoFile) //Should add photo file
-      else //Should not add photof ile
-      {
-      } //else //Should not add photof ile
 
       CBORObject cborObject= CBORObject.FromObject(translateRequestBuilder); //创建对象
 

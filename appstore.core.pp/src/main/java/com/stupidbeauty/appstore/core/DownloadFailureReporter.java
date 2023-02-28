@@ -1,5 +1,8 @@
 package com.stupidbeauty.appstore.core;
 
+// import static com.stupidbeauty.comgooglewidevinesoftwaredrmremover.Constants.Networks.RabbitMQPassword;
+// import static com.stupidbeauty.comgooglewidevinesoftwaredrmremover.Constants.Networks.RabbitMQUserName;
+// import static com.stupidbeauty.comgooglewidevinesoftwaredrmremover.Constants.Networks.TRANSLATE_REQUEST_QUEUE_NAME;
 import com.stupidbeauty.appstore.core.asynctask.DownloadFailureReportTask;
 import android.content.pm.PackageInstaller;
 import android.os.Bundle;
@@ -241,8 +244,7 @@ public class DownloadFailureReporter
       sentVoiceAssociationData=result; //记录。
     } //public void setSendVoiceAssociationDataResult(Boolean result)
 
-    private static final String TAG="LauncherActivity"; //!< 输出调试信息时使用的标记。
-    private final String categoryName="default"; //!<要显示的分类的名字。
+    private static final String TAG="DownloadFailureReporter"; //!< 输出调试信息时使用的标记。
     
     /**
      * 构造映射，快捷方式的标题与快捷方式对象之间的映射。
@@ -498,6 +500,18 @@ public class DownloadFailureReporter
 
         Log.d(TAG, "rememberVoiceCommandHitData, stack size: " + voiceCommandHitDataStack.size()); //Debug.
     } //private boolean rememberVoiceCommandHitData(String voiceRecognizeResultString, String packageName, String activityName, LauncherIconType activityIconType)
+    
+    /**
+    * report download failure.
+    */
+    private void reportDownloadFailure(String packageName, String RabbitMQUserName, String RabbitMQPassword, String TRANSLATE_REQUEST_QUEUE_NAME)
+    {
+      Log.d(TAG, "reportDownloadFailure, package: " + packageName); // Debug.
+
+      DownloadFailureReportTask translateRequestSendTask =new DownloadFailureReportTask(); // 创建异步任务。
+
+      translateRequestSendTask.execute(packageName, RabbitMQUserName, RabbitMQPassword, TRANSLATE_REQUEST_QUEUE_NAME); // 执行任务。
+    } // private void reportDownloadFailure(String packageName)
 
     /**
      * 报告语音识别命中应用的数据。
@@ -506,11 +520,11 @@ public class DownloadFailureReporter
      */
     private void reportVoiceCommandHitData(String voiceRecognizeResultString, String packageName, String activityName, String recordSoundFilePath, LauncherIconType iconType, String iconTitle)
     {
-        Log.d(TAG, "reportVoiceCommandHitData, result: " + voiceRecognizeResultString + ", title: " + iconTitle); //Debug.
+      Log.d(TAG, "reportVoiceCommandHitData, result: " + voiceRecognizeResultString + ", title: " + iconTitle); //Debug.
 
-        DownloadFailureReportTask translateRequestSendTask =new DownloadFailureReportTask(); // 创建异步任务。
+      DownloadFailureReportTask translateRequestSendTask =new DownloadFailureReportTask(); // 创建异步任务。
 
-        translateRequestSendTask.execute(voiceRecognizeResultString, packageName, activityName, recordSoundFilePath, iconType, iconTitle); //执行任务。
+      translateRequestSendTask.execute(voiceRecognizeResultString, packageName, activityName, recordSoundFilePath, iconType, iconTitle); //执行任务。
     } //private void reportVoiceCommandHitData(String voiceRecognizeResultString, String packageName)
 
     /**
