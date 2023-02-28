@@ -17,10 +17,8 @@
     android:theme="@style/AppTheme"
     android:largeHeap="true"
     android:allowBackup="true"
-    android:icon="@drawable/ic_launcher"
     android:label="@string/app_name"
     android:supportsRtl="true"
-    android:name=".application.HxLauncherApplication"
     android:fullBackupContent="@xml/mybackupscheme"
     android:networkSecurityConfig="@xml/network_security_zzaqvj"
     tools:ignore="GoogleAppIndexingWarning">
