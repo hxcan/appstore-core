@@ -58,20 +58,15 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.stupidbeauty.hxlauncher.bean.VoiceCommandHitDataObject;
+import com.stupidbeauty.appstore.bean.VoiceCommandHitDataObject;
 import com.google.gson.Gson;
 import com.huiti.msclearnfootball.AnswerAvailableEvent;
 import com.huiti.msclearnfootball.VoiceRecognizeResult;
-import com.stupidbeauty.hxlauncher.bean.ApplicationNameInternationalizationData;
-import com.stupidbeauty.hxlauncher.bean.ApplicationNamePair;
-import com.stupidbeauty.hxlauncher.bean.HxShortcutInfo;
 import com.stupidbeauty.hxlauncher.callback.LauncherAppsCallback;
 import com.stupidbeauty.hxlauncher.datastore.LauncherIconType;
 import com.stupidbeauty.hxlauncher.datastore.RuntimeInformationStore;
 import com.stupidbeauty.hxlauncher.datastore.VoiceCommandSourceType;
-// import com.stupidbeauty.hxlauncher.external.ShutDownAt2100Manager;
 import com.stupidbeauty.qtdocchinese.ArticleInfo;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -85,7 +80,6 @@ import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
 import com.stupidbeauty.hxlauncher.interfaces.LocalServerListLoadListener;
-import com.stupidbeauty.hxlauncher.bean.ApplicationListData;
 import static android.content.Intent.ACTION_PACKAGE_CHANGED;
 import static android.content.Intent.ACTION_PACKAGE_REPLACED;
 import static android.content.Intent.EXTRA_COMPONENT_NAME;
@@ -171,9 +165,6 @@ public class DownloadFailureReporter
 
     private boolean foundActivity=false; //!<是否命中了活动。
 
-    private HashMap<String, HxShortcutInfo> voiceShortcutIdMap=null; //!<语音识别结果与快捷方式编号之间的映射关系．
-    private HashMap<String, HxShortcutInfo> voiceShortcutIdMapBuiltin=null; //!<语音识别结果与快捷方式编号之间的映射关系．
-    
     private HashMap<String, String> internationalizationDataPackageNameMap=new HashMap<>(); //映射。应用程序的国际化名字与包名之间的映射。
 
     private String voiceRecognizeResultString; //!<语音识别结果。
@@ -197,26 +188,6 @@ public class DownloadFailureReporter
     private int mCurrMsg = -1;
 
     private ArrayList<ArticleInfo> builtinShortcuts =null; //!< 内置快捷方式列表。
-    
-    public void setVoiceShortcutIdMap (HashMap<String, HxShortcutInfo> voiceShortcutIdMap) //!<语音识别结果与快捷方式编号之间的映射关系．
-    {
-      this.voiceShortcutIdMap=voiceShortcutIdMap;
-        
-      if (voiceShortcutIdMapBuiltin!=null)
-      {
-        this.voiceShortcutIdMap.putAll(voiceShortcutIdMapBuiltin); // 合并。
-      }
-    }
-    
-    /**
-    * 语音识别结果与快捷方式编号之间的映射关系．
-    */
-    public void setVoiceShortcutIdMapBuiltin (HashMap<String, HxShortcutInfo> voiceShortcutIdMapBuiltin) 
-    {
-      this.voiceShortcutIdMapBuiltin=voiceShortcutIdMapBuiltin;
-            
-      this.voiceShortcutIdMap.putAll(voiceShortcutIdMapBuiltin); // 合并。
-    } //public void setVoiceShortcutIdMapBuiltin (HashMap<String, HxShortcutInfo> voiceShortcutIdMapBuiltin)
     
     public void setInternationalizationDataPackageNameMap(HashMap<String, String>  internationalizationDataPackageNameMap)
     {
@@ -267,63 +238,6 @@ public class DownloadFailureReporter
             } //for(ShortcutInfo shortcutInfo: shortcutInfos) //一个个地显示。
         } //if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.O) //26之后才有钉住的快捷方式。
     } //private void buildShortcutTitleInfoMap(List<ShortcutInfo> shortcutInfos)
-
-    /**
-     * 断开语音指令关联。
-     */
-    private void unlinkVoiceCommand()
-    {
-        Log.d(TAG, ",unlinkVoiceCommand, stack length: " + voiceCommandHitDataStack.size()); //Debug.
-        VoiceCommandHitDataObject commandToUnlink=null; //最终要断开关联的对象
-
-        //寻找要断开关联的命令对象：
-        if (voiceCommandHitDataStack.empty()) //栈为空，不行动
-        {
-
-        } //if (voiceCommandHitDataStack.empty()) //栈为空，不行动
-        else  //栈不为空，做事
-        {
-            VoiceCommandHitDataObject voiceCommandHitDataObject=voiceCommandHitDataStack.pop(); //获取最后一个
-
-            String packageName=voiceCommandHitDataObject.getPackageName(); //获取包名。
-
-            Log.d(TAG, ",unlinkVoiceCommand, stack length: " + voiceCommandHitDataStack.size()+ ", packange name: " + packageName); //Debug.
-        } //else  //栈不为空，做事
-
-        Log.d(TAG, ",unlinkVoiceCommand, stack length: " + voiceCommandHitDataStack.size()+ ", command unlink: " + commandToUnlink); //Debug.
-        Log.d(TAG, ",unlinkVoiceCommand, stack length: " + voiceCommandHitDataStack.size()+ ", command unlink: " + commandToUnlink.getPackageName()); //Debug.
-        Log.d(TAG, ",unlinkVoiceCommand, stack length: " + voiceCommandHitDataStack.size()+ ", command unlink: " + commandToUnlink.getActivityName()); //Debug.
-        Log.d(TAG, ",unlinkVoiceCommand, stack length: " + voiceCommandHitDataStack.size()+ ", command unlink: " + commandToUnlink.getIconType()); //Debug.
-
-
-        //断开关联：
-        if (commandToUnlink!=null) //有内容
-        {
-            VoiceCommandSourceType voiceCommandSourceType=commandToUnlink.getVoiceCommandSourceType(); //获取语音命中方式。
-            LauncherIconType launcherIconType=commandToUnlink.getIconType(); //获取图标类型
-            String voiceCommandString=commandToUnlink.getVoiceRecognizeResult(); //获取语音识别结果
-            String voiceCommandPackage=commandToUnlink.getPackageName(); //获取包名
-            String voiceCommandActivityName=commandToUnlink.getActivityName(); //获取活动名
-
-            if (voiceCommandSourceType==LocalVoiceCommandMap) //本地映射
-            {
-                if (launcherIconType==ActivityIconType) //是应用图标
-                {
-                } //if (launcherIconType==ActivityIconType) //是应用图标
-                else  //是快捷方式图标
-                {
-                    HxShortcutInfo hxShortcutInfo=voiceShortcutIdMap.get(voiceCommandString); //获取快捷方式对象
-                    String packageName=hxShortcutInfo.packageName; //获取包名。
-                    String activityName=hxShortcutInfo.shortcutId; //获取快捷方式编号。
-
-                    if ((packageName.equals(voiceCommandPackage)) && (activityName.equals(voiceCommandActivityName))) //一致
-                    {
-                        voiceShortcutIdMap.remove(voiceCommandString, hxShortcutInfo); //删除映射
-                    } //if ((packageName.equals(voiceCommandPackage)) && (activityName.equals(voiceCommandActivityName))) //一致
-                } //else  //是快捷方式图标
-            } //if (voiceCommandSourceType==LocalVoiceCommandMap) //本地映射
-        } //if (commandToUnlink!=null) //有内容
-    } //private void unlinkVoiceCommand()
 
     /**
      * 考虑，是否要发送语音指令关联应用数据。
@@ -456,28 +370,6 @@ public class DownloadFailureReporter
 
         return result;
     } //public int getItemPosition(String packageItemInfopackageName, String packageItemInfoname)
-
-  /**
-  * 从映射中寻找目标快捷方式的包名。从用户自己积累的映射中寻找。
-  * @param voiceShortcutIdMap 映射对象
-  * @return 找到的包名
-  */
-  private String findVoiceTargetMapShortcutPackageName(HashMap<String, HxShortcutInfo> voiceShortcutIdMap)
-  {
-    String result="";
-      
-    if (voiceShortcutIdMap!=null) // The map exists
-    {
-      if (voiceShortcutIdMap.containsKey(voiceRecognizeResultString)) //有对应的映射关系。用户自己积累的语音指令与包条目映射。
-      {
-        String packageName=voiceShortcutIdMap.get(voiceRecognizeResultString).packageName; //获取包名。
-
-        result=packageName; //命中了。
-      } //if (voicePackageNameMap.contains(voiceRecognizeResultString)) //有对应的映射关系。
-    } // if (voiceShortcutIdMap!=null) // The map exists
-
-    return result;
-  } //private String findVoiceTargetMapShortcutPackageName(HashMap<String, HxShortcutInfo> voiceShortcutIdMap)
 
     /**
      * 记录语音识别命中应用的数据

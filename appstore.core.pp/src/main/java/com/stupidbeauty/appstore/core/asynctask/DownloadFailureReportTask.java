@@ -4,18 +4,13 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
-import com.stupidbeauty.hxlauncher.bean.VoiceCommandHitDataObject;
-// import com.google.protobuf.ByteString;
+import com.stupidbeauty.appstore.bean.VoiceCommandHitDataObject;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.MessageProperties;
-// import com.stupidbeauty.hxlauncher.VoiceCommandHitDataMessageProtos;
 import com.stupidbeauty.hxlauncher.datastore.LauncherIconType;
 import com.upokecenter.cbor.CBORObject;
-// import org.apache.commons.io.FileUtils;
-// import org.apache.commons.io.filefilter.IOFileFilter;
-// import org.apache.commons.io.filefilter.TrueFileFilter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -23,11 +18,6 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Random;
-// import static com.stupidbeauty.comgooglewidevinesoftwaredrmremover.Constants.Networks.RabbitMQPassword;
-// import static com.stupidbeauty.comgooglewidevinesoftwaredrmremover.Constants.Networks.RabbitMQUserName;
-// import static com.stupidbeauty.comgooglewidevinesoftwaredrmremover.Constants.Networks.TRANSLATE_REQUEST_QUEUE_NAME;
-// import static com.stupidbeauty.hxlauncher.HxLauncherIconType.PbActivityIconType;
-// import static com.stupidbeauty.hxlauncher.HxLauncherIconType.PbShortcutIconType;
 
 /**
  * @author Hxcan
@@ -35,7 +25,7 @@ import java.util.Random;
  */
 public final class DownloadFailureReportTask extends AsyncTask<Object, Void, Boolean>
 {
-  private static final String TAG="TranslateRequestSen"; //!<输出调试信息时使用的标记。
+  private static final String TAG="DownloadFailureReport"; //!< 输出调试信息时使用的标记。
 
   @Override
   protected Boolean doInBackground(Object... params)

@@ -1,4 +1,4 @@
-package com.stupidbeauty.hxlauncher.bean;
+package com.stupidbeauty.appstore.bean;
 
 import com.stupidbeauty.hxlauncher.datastore.LauncherIconType;
 import com.stupidbeauty.hxlauncher.datastore.VoiceCommandSourceType;
