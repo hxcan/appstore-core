@@ -61,7 +61,7 @@ import android.widget.Toast;
 import com.stupidbeauty.appstore.bean.VoiceCommandHitDataObject;
 import com.google.gson.Gson;
 // import com.huiti.msclearnfootball.AnswerAvailableEvent;
-import com.huiti.msclearnfootball.VoiceRecognizeResult;
+// import com.huiti.msclearnfootball.VoiceRecognizeResult;
 import com.stupidbeauty.hxlauncher.callback.LauncherAppsCallback;
 import com.stupidbeauty.hxlauncher.datastore.LauncherIconType;
 import com.stupidbeauty.hxlauncher.datastore.RuntimeInformationStore;
