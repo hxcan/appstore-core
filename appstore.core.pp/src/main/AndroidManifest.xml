@@ -23,42 +23,10 @@
     android:networkSecurityConfig="@xml/network_security_zzaqvj"
     tools:ignore="GoogleAppIndexingWarning">
     <uses-library android:name="org.apache.http.legacy" android:required="false"/>
-    <activity android:name="com.stupidbeauty.hxlauncher.LauncherActivity" android:launchMode="singleInstance" 
-      android:windowSoftInputMode="stateAlwaysHidden"
-      android:theme="@style/AppTheme" >
-      <intent-filter>
-        <action android:name="android.intent.action.MAIN"/>
-        <category android:name="android.intent.category.HOME"/>
-        <category android:name="android.intent.category.LAUNCHER"/>
-        <category android:name="android.intent.category.DEFAULT"/>
-      </intent-filter>
-    </activity>
-    <activity android:name="com.stupidbeauty.hxlauncher.UnLinkActivity" android:launchMode="singleInstance" android:windowSoftInputMode="stateAlwaysHidden"
-      android:label="@string/unlink_not_right" >
-      <intent-filter>
-        <action android:name="android.intent.action.MAIN"/>
-        <category android:name="android.intent.category.LAUNCHER"/>
-      </intent-filter>
-    </activity>
-    <activity android:name="com.stupidbeauty.hxlauncher.activity.FakeLauncherActivity" android:launchMode="singleInstance"
-      android:windowSoftInputMode="stateAlwaysHidden" android:enabled="false" >
-      <intent-filter>
-        <action android:name="android.intent.action.MAIN"/>
-        <category android:name="android.intent.category.HOME"/>
-        <category android:name="android.intent.category.LAUNCHER"/>
-        <category android:name="android.intent.category.DEFAULT"/>
-      </intent-filter>
-    </activity>
     <activity android:name="com.stupidbeauty.hxlauncher.activity.PinShortcutConfirmActivity" android:launchMode="singleInstance"
       android:windowSoftInputMode="stateAlwaysHidden" >
       <intent-filter>
         <action android:name="android.content.pm.action.CONFIRM_PIN_SHORTCUT"/>
-      </intent-filter>
-    </activity>
-    <activity android:name="com.stupidbeauty.hxlauncher.SettingsActivity" android:label="@string/hxLauncherSettings" >
-      <intent-filter>
-        <action android:name="android.intent.action.MAIN"/>
-        <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
     <activity android:name=".activity.ApplicationInformationActivity" android:theme="@style/AppTheme" android:launchMode="singleInstance" />

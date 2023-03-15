@@ -1,6 +1,5 @@
 <resources>
   <string name="prepareInstall">准备安装</string>
-  <string name="app_name">灵桌面</string>
   <string name="applicationIcon">应用程序图标</string>
   <string name="backgroundImage">背景图片</string>
   <string name="darkBackgroundImage">背景图片变暗</string>
