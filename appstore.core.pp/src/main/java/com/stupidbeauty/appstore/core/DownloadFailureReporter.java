@@ -66,7 +66,7 @@ import com.stupidbeauty.hxlauncher.callback.LauncherAppsCallback;
 import com.stupidbeauty.hxlauncher.datastore.LauncherIconType;
 import com.stupidbeauty.hxlauncher.datastore.RuntimeInformationStore;
 import com.stupidbeauty.hxlauncher.datastore.VoiceCommandSourceType;
-import com.stupidbeauty.qtdocchinese.ArticleInfo;
+// import com.stupidbeauty.qtdocchinese.ArticleInfo;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -124,8 +124,6 @@ public class DownloadFailureReporter
     private boolean sentVoiceAssociationData=false; //!<是否已经成功发送语音指令关联应用程序数据。
 
     private List<ShortcutInfo> shortcutInfos=null; //!< 快捷方式列表。
-    
-    private ArrayList<ArticleInfo> articleInfoArrayList = null; //!< 应用程序信息列表。
     
     private boolean builtinShortcutsVisible= true; //!< 内置 快捷方式是否可见。
     
@@ -187,8 +185,6 @@ public class DownloadFailureReporter
 
     private int mCurrMsg = -1;
 
-    private ArrayList<ArticleInfo> builtinShortcuts =null; //!< 内置快捷方式列表。
-    
     public void setInternationalizationDataPackageNameMap(HashMap<String, String>  internationalizationDataPackageNameMap)
     {
       this.internationalizationDataPackageNameMap=internationalizationDataPackageNameMap;
