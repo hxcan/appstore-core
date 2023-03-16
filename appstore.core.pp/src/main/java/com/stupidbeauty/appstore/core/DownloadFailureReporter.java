@@ -63,7 +63,7 @@ import com.google.gson.Gson;
 // import com.huiti.msclearnfootball.AnswerAvailableEvent;
 // import com.huiti.msclearnfootball.VoiceRecognizeResult;
 import com.stupidbeauty.hxlauncher.callback.LauncherAppsCallback;
-import com.stupidbeauty.hxlauncher.datastore.LauncherIconType;
+// import com.stupidbeauty.hxlauncher.datastore.LauncherIconType;
 import com.stupidbeauty.hxlauncher.datastore.RuntimeInformationStore;
 import com.stupidbeauty.hxlauncher.datastore.VoiceCommandSourceType;
 // import com.stupidbeauty.qtdocchinese.ArticleInfo;
@@ -95,8 +95,8 @@ import static com.stupidbeauty.hxlauncher.Constants.Numbers.IgnoreVoiceResultLen
 import static com.stupidbeauty.hxlauncher.Constants.Operation.ToggleBuiltinShortcuts;
 import static com.stupidbeauty.hxlauncher.Constants.Operation.ToggleHiveLayout;
 import static com.stupidbeauty.hxlauncher.Constants.Operation.UnlinkVoiceCommand;
-import static com.stupidbeauty.hxlauncher.datastore.LauncherIconType.ActivityIconType;
-import static com.stupidbeauty.hxlauncher.datastore.LauncherIconType.ShortcutIconType;
+// import static com.stupidbeauty.hxlauncher.datastore.LauncherIconType.ActivityIconType;
+// import static com.stupidbeauty.hxlauncher.datastore.LauncherIconType.ShortcutIconType;
 import static com.stupidbeauty.hxlauncher.datastore.VoiceCommandSourceType.LocalVoiceCommandMap;
 import static com.stupidbeauty.hxlauncher.datastore.VoiceCommandSourceType.ServerVoiceCommandResponse;
 import android.os.Process;
@@ -368,28 +368,6 @@ public class DownloadFailureReporter
     } //public int getItemPosition(String packageItemInfopackageName, String packageItemInfoname)
 
     /**
-     * 记录语音识别命中应用的数据
-     * @param voiceRecognizeResultString 语音识别结果
-     * @param packageName 包名
-     * @param activityName 活动名
-     * @param activityIconType 目标类型。活动还是快捷方式
-     */
-    private void rememberVoiceCommandHitData(String voiceRecognizeResultString, String packageName, String activityName, LauncherIconType activityIconType, VoiceCommandSourceType voiceCommandSourceType)
-    {
-        VoiceCommandHitDataObject voiceCommandHitDataObject=new VoiceCommandHitDataObject(); //创建实例
-
-        voiceCommandHitDataObject.setVoiceRecognizeResult(voiceRecognizeResultString);
-        voiceCommandHitDataObject.setPackageName(packageName);
-        voiceCommandHitDataObject.setActivityName(activityName);
-        voiceCommandHitDataObject.setIconType(activityIconType);
-        voiceCommandHitDataObject.setVoiceCommandSourceType(voiceCommandSourceType);
-
-        voiceCommandHitDataStack.push(voiceCommandHitDataObject); //加入栈中
-
-        Log.d(TAG, "rememberVoiceCommandHitData, stack size: " + voiceCommandHitDataStack.size()); //Debug.
-    } //private boolean rememberVoiceCommandHitData(String voiceRecognizeResultString, String packageName, String activityName, LauncherIconType activityIconType)
-    
-    /**
     * report download failure.
     */
     public void reportDownloadFailure(String packageName, String RabbitMQUserName, String RabbitMQPassword, String TRANSLATE_REQUEST_QUEUE_NAME)
@@ -406,13 +384,13 @@ public class DownloadFailureReporter
      * @param voiceRecognizeResultString 语音识别结果字符串。
      * @param packageName 命中的包名。
      */
-    private void reportVoiceCommandHitData(String voiceRecognizeResultString, String packageName, String activityName, String recordSoundFilePath, LauncherIconType iconType, String iconTitle)
+    private void reportVoiceCommandHitData(String voiceRecognizeResultString, String packageName, String activityName, String recordSoundFilePath, String iconTitle)
     {
       Log.d(TAG, "reportVoiceCommandHitData, result: " + voiceRecognizeResultString + ", title: " + iconTitle); //Debug.
 
       DownloadFailureReportTask translateRequestSendTask =new DownloadFailureReportTask(); // 创建异步任务。
 
-      translateRequestSendTask.execute(voiceRecognizeResultString, packageName, activityName, recordSoundFilePath, iconType, iconTitle); //执行任务。
+      translateRequestSendTask.execute(voiceRecognizeResultString, packageName, activityName, recordSoundFilePath, iconTitle); //执行任务。
     } //private void reportVoiceCommandHitData(String voiceRecognizeResultString, String packageName)
 
     /**
