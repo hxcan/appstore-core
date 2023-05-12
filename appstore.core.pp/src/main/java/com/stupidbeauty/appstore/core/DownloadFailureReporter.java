@@ -58,7 +58,7 @@ import android.widget.Toast;
 import com.stupidbeauty.appstore.bean.VoiceCommandHitDataObject;
 import com.google.gson.Gson;
 // import com.stupidbeauty.hxlauncher.datastore.RuntimeInformationStore;
-import com.stupidbeauty.hxlauncher.datastore.VoiceCommandSourceType;
+// import com.stupidbeauty.hxlauncher.datastore.VoiceCommandSourceType;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -88,8 +88,8 @@ import static android.content.pm.LauncherApps.ShortcutQuery.FLAG_MATCH_PINNED_BY
 // import static com.stupidbeauty.hxlauncher.Constants.Operation.UnlinkVoiceCommand;
 // import static com.stupidbeauty.hxlauncher.datastore.LauncherIconType.ActivityIconType;
 // import static com.stupidbeauty.hxlauncher.datastore.LauncherIconType.ShortcutIconType;
-import static com.stupidbeauty.hxlauncher.datastore.VoiceCommandSourceType.LocalVoiceCommandMap;
-import static com.stupidbeauty.hxlauncher.datastore.VoiceCommandSourceType.ServerVoiceCommandResponse;
+// import static com.stupidbeauty.hxlauncher.datastore.VoiceCommandSourceType.LocalVoiceCommandMap;
+// import static com.stupidbeauty.hxlauncher.datastore.VoiceCommandSourceType.ServerVoiceCommandResponse;
 import android.os.Process;
 
 public class DownloadFailureReporter
