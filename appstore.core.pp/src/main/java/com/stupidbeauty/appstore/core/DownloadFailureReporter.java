@@ -49,7 +49,7 @@ import android.os.PowerManager;
 import android.os.Vibrator;
 import android.provider.Settings;
 import android.util.Pair;
-import com.andexert.library.RippleView;
+// import com.andexert.library.RippleView;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
