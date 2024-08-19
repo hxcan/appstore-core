@@ -9,7 +9,7 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.MessageProperties;
-import com.stupidbeauty.hxlauncher.datastore.LauncherIconType;
+// import com.stupidbeauty.hxlauncher.datastore.LauncherIconType;
 import com.upokecenter.cbor.CBORObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;

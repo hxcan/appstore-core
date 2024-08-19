@@ -1,8 +1,5 @@
 package com.stupidbeauty.appstore.core;
 
-// import static com.stupidbeauty.comgooglewidevinesoftwaredrmremover.Constants.Networks.RabbitMQPassword;
-// import static com.stupidbeauty.comgooglewidevinesoftwaredrmremover.Constants.Networks.RabbitMQUserName;
-// import static com.stupidbeauty.comgooglewidevinesoftwaredrmremover.Constants.Networks.TRANSLATE_REQUEST_QUEUE_NAME;
 import com.stupidbeauty.appstore.core.asynctask.DownloadFailureReportTask;
 import android.content.pm.PackageInstaller;
 import android.os.Bundle;
@@ -60,13 +57,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.stupidbeauty.appstore.bean.VoiceCommandHitDataObject;
 import com.google.gson.Gson;
-import com.huiti.msclearnfootball.AnswerAvailableEvent;
-import com.huiti.msclearnfootball.VoiceRecognizeResult;
-import com.stupidbeauty.hxlauncher.callback.LauncherAppsCallback;
-import com.stupidbeauty.hxlauncher.datastore.LauncherIconType;
-import com.stupidbeauty.hxlauncher.datastore.RuntimeInformationStore;
-import com.stupidbeauty.hxlauncher.datastore.VoiceCommandSourceType;
-import com.stupidbeauty.qtdocchinese.ArticleInfo;
+// import com.stupidbeauty.hxlauncher.datastore.RuntimeInformationStore;
+// import com.stupidbeauty.hxlauncher.datastore.VoiceCommandSourceType;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -79,7 +71,6 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
-import com.stupidbeauty.hxlauncher.interfaces.LocalServerListLoadListener;
 import static android.content.Intent.ACTION_PACKAGE_CHANGED;
 import static android.content.Intent.ACTION_PACKAGE_REPLACED;
 import static android.content.Intent.EXTRA_COMPONENT_NAME;
@@ -88,17 +79,17 @@ import static android.content.pm.LauncherApps.ShortcutQuery.FLAG_MATCH_DYNAMIC;
 import static android.content.pm.LauncherApps.ShortcutQuery.FLAG_MATCH_MANIFEST;
 import static android.content.pm.LauncherApps.ShortcutQuery.FLAG_MATCH_PINNED;
 import static android.content.pm.LauncherApps.ShortcutQuery.FLAG_MATCH_PINNED_BY_ANY_LAUNCHER;
-import static com.stupidbeauty.hxlauncher.Constants.Actions.LegacyInstallShortcut;
-import static com.stupidbeauty.hxlauncher.Constants.LanImeAction.InputtingForPackage;
-import static com.stupidbeauty.hxlauncher.Constants.LanImeAction.PackageNameOfInputting;
-import static com.stupidbeauty.hxlauncher.Constants.Numbers.IgnoreVoiceResultLength;
-import static com.stupidbeauty.hxlauncher.Constants.Operation.ToggleBuiltinShortcuts;
-import static com.stupidbeauty.hxlauncher.Constants.Operation.ToggleHiveLayout;
-import static com.stupidbeauty.hxlauncher.Constants.Operation.UnlinkVoiceCommand;
-import static com.stupidbeauty.hxlauncher.datastore.LauncherIconType.ActivityIconType;
-import static com.stupidbeauty.hxlauncher.datastore.LauncherIconType.ShortcutIconType;
-import static com.stupidbeauty.hxlauncher.datastore.VoiceCommandSourceType.LocalVoiceCommandMap;
-import static com.stupidbeauty.hxlauncher.datastore.VoiceCommandSourceType.ServerVoiceCommandResponse;
+// import static com.stupidbeauty.hxlauncher.Constants.Actions.LegacyInstallShortcut;
+// import static com.stupidbeauty.hxlauncher.Constants.LanImeAction.InputtingForPackage;
+// import static com.stupidbeauty.hxlauncher.Constants.LanImeAction.PackageNameOfInputting;
+// import static com.stupidbeauty.hxlauncher.Constants.Numbers.IgnoreVoiceResultLength;
+// import static com.stupidbeauty.hxlauncher.Constants.Operation.ToggleBuiltinShortcuts;
+// import static com.stupidbeauty.hxlauncher.Constants.Operation.ToggleHiveLayout;
+// import static com.stupidbeauty.hxlauncher.Constants.Operation.UnlinkVoiceCommand;
+// import static com.stupidbeauty.hxlauncher.datastore.LauncherIconType.ActivityIconType;
+// import static com.stupidbeauty.hxlauncher.datastore.LauncherIconType.ShortcutIconType;
+// import static com.stupidbeauty.hxlauncher.datastore.VoiceCommandSourceType.LocalVoiceCommandMap;
+// import static com.stupidbeauty.hxlauncher.datastore.VoiceCommandSourceType.ServerVoiceCommandResponse;
 import android.os.Process;
 
 public class DownloadFailureReporter
@@ -124,8 +115,6 @@ public class DownloadFailureReporter
     private boolean sentVoiceAssociationData=false; //!<是否已经成功发送语音指令关联应用程序数据。
 
     private List<ShortcutInfo> shortcutInfos=null; //!< 快捷方式列表。
-    
-    private ArrayList<ArticleInfo> articleInfoArrayList = null; //!< 应用程序信息列表。
     
     private boolean builtinShortcutsVisible= true; //!< 内置 快捷方式是否可见。
     
@@ -187,8 +176,6 @@ public class DownloadFailureReporter
 
     private int mCurrMsg = -1;
 
-    private ArrayList<ArticleInfo> builtinShortcuts =null; //!< 内置快捷方式列表。
-    
     public void setInternationalizationDataPackageNameMap(HashMap<String, String>  internationalizationDataPackageNameMap)
     {
       this.internationalizationDataPackageNameMap=internationalizationDataPackageNameMap;
@@ -372,28 +359,6 @@ public class DownloadFailureReporter
     } //public int getItemPosition(String packageItemInfopackageName, String packageItemInfoname)
 
     /**
-     * 记录语音识别命中应用的数据
-     * @param voiceRecognizeResultString 语音识别结果
-     * @param packageName 包名
-     * @param activityName 活动名
-     * @param activityIconType 目标类型。活动还是快捷方式
-     */
-    private void rememberVoiceCommandHitData(String voiceRecognizeResultString, String packageName, String activityName, LauncherIconType activityIconType, VoiceCommandSourceType voiceCommandSourceType)
-    {
-        VoiceCommandHitDataObject voiceCommandHitDataObject=new VoiceCommandHitDataObject(); //创建实例
-
-        voiceCommandHitDataObject.setVoiceRecognizeResult(voiceRecognizeResultString);
-        voiceCommandHitDataObject.setPackageName(packageName);
-        voiceCommandHitDataObject.setActivityName(activityName);
-        voiceCommandHitDataObject.setIconType(activityIconType);
-        voiceCommandHitDataObject.setVoiceCommandSourceType(voiceCommandSourceType);
-
-        voiceCommandHitDataStack.push(voiceCommandHitDataObject); //加入栈中
-
-        Log.d(TAG, "rememberVoiceCommandHitData, stack size: " + voiceCommandHitDataStack.size()); //Debug.
-    } //private boolean rememberVoiceCommandHitData(String voiceRecognizeResultString, String packageName, String activityName, LauncherIconType activityIconType)
-    
-    /**
     * report download failure.
     */
     public void reportDownloadFailure(String packageName, String RabbitMQUserName, String RabbitMQPassword, String TRANSLATE_REQUEST_QUEUE_NAME)
@@ -410,13 +375,13 @@ public class DownloadFailureReporter
      * @param voiceRecognizeResultString 语音识别结果字符串。
      * @param packageName 命中的包名。
      */
-    private void reportVoiceCommandHitData(String voiceRecognizeResultString, String packageName, String activityName, String recordSoundFilePath, LauncherIconType iconType, String iconTitle)
+    private void reportVoiceCommandHitData(String voiceRecognizeResultString, String packageName, String activityName, String recordSoundFilePath, String iconTitle)
     {
       Log.d(TAG, "reportVoiceCommandHitData, result: " + voiceRecognizeResultString + ", title: " + iconTitle); //Debug.
 
       DownloadFailureReportTask translateRequestSendTask =new DownloadFailureReportTask(); // 创建异步任务。
 
-      translateRequestSendTask.execute(voiceRecognizeResultString, packageName, activityName, recordSoundFilePath, iconType, iconTitle); //执行任务。
+      translateRequestSendTask.execute(voiceRecognizeResultString, packageName, activityName, recordSoundFilePath, iconTitle); //执行任务。
     } //private void reportVoiceCommandHitData(String voiceRecognizeResultString, String packageName)
 
     /**

@@ -1,7 +1,7 @@
 package com.stupidbeauty.appstore.bean;
 
-import com.stupidbeauty.hxlauncher.datastore.LauncherIconType;
-import com.stupidbeauty.hxlauncher.datastore.VoiceCommandSourceType;
+// import com.stupidbeauty.hxlauncher.datastore.LauncherIconType;
+// import com.stupidbeauty.hxlauncher.datastore.VoiceCommandSourceType;
 
 public class VoiceCommandHitDataObject
 {
@@ -38,10 +38,6 @@ public class VoiceCommandHitDataObject
         this.voiceRecognizeResult = voiceRecognizeResult;
     }
 
-    public LauncherIconType getIconType() {
-        return iconType;
-    }
-
     public String getVoiceRecognizeResult() {
         return voiceRecognizeResult;
     }
@@ -62,22 +58,17 @@ public class VoiceCommandHitDataObject
         this.activityName = activityName;
     }
 
-    public void setIconType(LauncherIconType iconType) {
-        this.iconType = iconType;
-    }
+    // public VoiceCommandSourceType getVoiceCommandSourceType() {
+    //     return voiceCommandSourceType;
+    // }
 
-    public VoiceCommandSourceType getVoiceCommandSourceType() {
-        return voiceCommandSourceType;
-    }
-
-    private LauncherIconType iconType;
     private String voiceRecognizeResult;
     private String packageName;
     private String activityName;
 
-    public void setVoiceCommandSourceType(VoiceCommandSourceType voiceCommandSourceType) {
-        this.voiceCommandSourceType = voiceCommandSourceType;
-    }
+    // public void setVoiceCommandSourceType(VoiceCommandSourceType voiceCommandSourceType) {
+    //     this.voiceCommandSourceType = voiceCommandSourceType;
+    // }
 
-    private VoiceCommandSourceType voiceCommandSourceType; //!<语音指令命中方式。
+    // private VoiceCommandSourceType voiceCommandSourceType; //!<语音指令命中方式。
 }
