@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
 
 android 
 {
@@ -9,7 +10,7 @@ android
   }
 
   compileSdkVersion 29
-  namespace 'com.stupidbeauty.hxlauncher'
+  namespace 'com.stupidbeauty.appstore.core'
 
   defaultConfig 
   {
@@ -17,8 +18,6 @@ android
     minSdkVersion 21
     targetSdkVersion 29
     versionCode 14164
-//     versionName "14164.2022.11.25"
-//     multiDexEnabled true
   }
 
   buildTypes 
@@ -41,15 +40,23 @@ android
     }
   }
 
-    sourceSets {
-        main {
-            jniLibs.srcDirs=['libs']
+  sourceSets {
+      main {
+          jniLibs.srcDirs=['libs']
 
-            java.srcDirs = [ 'src/main/java' ]
-        }
+          java.srcDirs = [ 'src/main/java' ]
+      }
+  }
+    
+  publishing
+  {
+    singleVariant('release')
+    {
+      withSourcesJar()
     }
+  }
 
-    return void
+  return void
 }
 
 dependencies {
@@ -62,3 +69,21 @@ dependencies {
   
   implementation 'androidx.annotation:annotation:1.6.0' // Use the latest version available
 }
+
+afterEvaluate 
+{
+  publishing 
+  {
+    publications
+    {
+      release(MavenPublication)
+      {
+        from components.release
+        groupId = 'com.github.hxcan'
+        artifactId = 'appstore-core'
+        version = '2024.8.21'
+      }
+    }
+  }
+}
+
