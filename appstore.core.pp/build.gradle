@@ -81,7 +81,7 @@ afterEvaluate
         from components.release
         groupId = 'com.github.hxcan'
         artifactId = 'appstore-core'
-        version = '2024.8.22'
+        version = '2024.8.24'
       }
     }
   }
