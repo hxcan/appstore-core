@@ -9,7 +9,11 @@ import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.MessageProperties;
-// import com.stupidbeauty.hxlauncher.datastore.LauncherIconType;
+import com.stupidbeauty.codeposition.CodePosition;
+import java.io.FileDescriptor;
+import java.io.FileInputStream;
+import java.io.BufferedReader;
+import android.media.MediaScannerConnection;
 import com.upokecenter.cbor.CBORObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -28,26 +32,30 @@ public final class DownloadFailureReportTask extends AsyncTask<Object, Void, Boo
   private static final String TAG="DownloadFailureReport"; //!< 输出调试信息时使用的标记。
 
   @Override
-  protected Boolean doInBackground(Object... params)
+  protected Boolean doInBackground(Object... params) 
   {
-    //参数顺序：
-    // packageName
+    Log.d(TAG, CodePosition.newInstance().toString() + ", starting report task"); // 🔦
 
-    Boolean result=false; //结果，是否成功。
+    String body = (String)(params[0]);
+    String RabbitMQUserName = (String)(params[1]);
+    String RabbitMQPassword = (String)(params[2]);
+    String TRANSLATE_REQUEST_QUEUE_NAME = (String)(params[3]);
 
-    //使用protobuf将各个字段序列化成字节数组，然后使用rabbitmq发送到服务器。
+    Log.d(TAG, CodePosition.newInstance().toString() + 
+           ", package=" + body + 
+           ", queue=" + TRANSLATE_REQUEST_QUEUE_NAME + 
+           ", user=" + RabbitMQUserName); // 📦 参数确认
 
-//     String subject=(String)(params[0]); //获取识别结果文字内容。
+    Boolean result = sendHItDataReport(body, RabbitMQUserName, RabbitMQPassword, TRANSLATE_REQUEST_QUEUE_NAME);
 
-    String body=(String)(params[0]); // 获取包名。
-    String RabbitMQUserName=(String)(params[1]); // user name
-    String RabbitMQPassword=(String)(params[2]); // password 
-    String TRANSLATE_REQUEST_QUEUE_NAME=(String)(params[3]); // message queue name.
-
-    result = sendHItDataReport(body, RabbitMQUserName, RabbitMQPassword, TRANSLATE_REQUEST_QUEUE_NAME);
+    if (result) {
+        Log.d(TAG, CodePosition.newInstance().toString() + ", ✅ Report SUCCESS: " + body);
+    } else {
+        Log.e(TAG, CodePosition.newInstance().toString() + ", ❌ Report FAILED: " + body);
+    }
 
     return result;
-  } //protected Boolean doInBackground(Object... params)
+  }
 
   private Boolean sendHItDataReport(String body, String RabbitMQUserName, String RabbitMQPassword, String TRANSLATE_REQUEST_QUEUE_NAME)
   {

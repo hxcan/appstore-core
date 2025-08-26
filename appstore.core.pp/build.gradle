@@ -9,7 +9,7 @@ android
     targetCompatibility JavaVersion.VERSION_1_8
   }
 
-  compileSdkVersion 29
+  compileSdkVersion 34
   namespace 'com.stupidbeauty.appstore.core'
 
   defaultConfig 
@@ -47,7 +47,7 @@ android
           java.srcDirs = [ 'src/main/java' ]
       }
   }
-    
+
   publishing
   {
     singleVariant('release')
@@ -68,6 +68,7 @@ dependencies {
   coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
   
   implementation 'androidx.annotation:annotation:1.6.0' // Use the latest version available
+  implementation 'com.github.hxcan:CodePosition:2023.5.19'
 }
 
 afterEvaluate 
